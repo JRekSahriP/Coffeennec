@@ -5,6 +5,9 @@ import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
+import com.coffeennec.input.FennecCursor;
+import com.coffeennec.input.FennecKeys;
+
 public abstract class CoffeeWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
@@ -15,13 +18,15 @@ public abstract class CoffeeWindow extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.panel = new CoffeePanel(this);	
-		panel.pauseLoop();
+		this.panel.pauseLoop();
 		this.add(panel);
 		this.setWindowSize(600, 600);
 	
 		
 		this.setLocationRelativeTo(null);
 		
+		this.addFennecKeys();
+		this.addFennecCursor();
 		
 		initializer(); 
 		config();
@@ -37,6 +42,18 @@ public abstract class CoffeeWindow extends JFrame {
 	protected abstract void update();
 	protected abstract void draw(Graphics g);
 	
+	
+	
+	private void addFennecKeys() {
+		this.addKeyListener(new FennecKeys());
+	}
+	private void addFennecCursor() {
+		FennecCursor fc = new FennecCursor();
+		this.panel.addMouseListener(fc);
+		this.panel.addMouseMotionListener(fc);
+		this.panel.addMouseWheelListener(fc);
+	}
+
 	
 	
 	public void setWindowSize(int width, int height) {

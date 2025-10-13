@@ -4,6 +4,9 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import com.coffeennec.input.FennecCursor;
+import com.coffeennec.input.FennecKeys;
+
 public class CoffeePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
@@ -49,6 +52,7 @@ public class CoffeePanel extends JPanel {
 				if (delta >= 1) {
 					update();
 					repaint();
+					updateStates();
 					frames++;
 					delta--;
 				}
@@ -70,6 +74,11 @@ public class CoffeePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		window.draw(g);
+	}
+	
+	private void updateStates() {
+		FennecKeys.update();
+		FennecCursor.update();
 	}
 	
 	public void pauseLoop() {
