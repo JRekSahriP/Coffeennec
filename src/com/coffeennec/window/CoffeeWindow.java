@@ -1,10 +1,10 @@
 package com.coffeennec.window;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
+import com.coffeennec.graphics.buffers.CoffeeBuffer;
 import com.coffeennec.input.FennecCursor;
 import com.coffeennec.input.FennecKeys;
 
@@ -40,7 +40,7 @@ public abstract class CoffeeWindow extends JFrame {
 	protected abstract void initializer();
 	protected abstract void config();
 	protected abstract void update();
-	protected abstract void draw(Graphics g);
+	protected abstract void draw(CoffeeBuffer b);
 	
 	
 	

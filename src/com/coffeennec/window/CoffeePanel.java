@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import com.coffeennec.graphics.buffers.CoffeeBuffer;
 import com.coffeennec.input.FennecCursor;
 import com.coffeennec.input.FennecKeys;
 
@@ -17,6 +18,8 @@ public class CoffeePanel extends JPanel {
 	
 	
 	private CoffeeWindow window;
+	private CoffeeBuffer buffer;
+	
 	private int maxFPS;
 	private double tickTime;
 	private int FPS;
@@ -38,6 +41,8 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	private void run() {
+		buffer = new CoffeeBuffer(window.getWidth(), window.getHeight());
+		
 		long lastTime = System.nanoTime();
 		double delta = 0.0;
 		long timer = System.currentTimeMillis();
@@ -73,7 +78,8 @@ public class CoffeePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		window.draw(g);
+		window.draw(buffer);
+		g.drawImage(buffer.toImage(), 0, 0, null);
 	}
 	
 	private void updateStates() {
