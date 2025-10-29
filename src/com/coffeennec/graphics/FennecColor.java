@@ -27,10 +27,10 @@ public class FennecColor {
 		float inversePercentage = 1 - amount;
 		
 		return new Hex(
+						(int) Math.abs((inversePercentage * a1) + (amount * a2)),
 						(int) Math.abs((inversePercentage * r1) + (amount * r2)),
 						(int) Math.abs((inversePercentage * g1) + (amount * g2)),
-						(int) Math.abs((inversePercentage * b1) + (amount * b2)),
-						(int) Math.abs((inversePercentage * a1) + (amount * a2))
+						(int) Math.abs((inversePercentage * b1) + (amount * b2))
 				);
 	}
 	
