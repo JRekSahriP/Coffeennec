@@ -1,11 +1,13 @@
 package com.coffeennec.graphics.buffers;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
+import com.coffeennec.graphics.CoffeeFont;
 import com.coffeennec.strings.FennecString;
 
 public class CoffeeBuffer {
@@ -173,6 +175,22 @@ public class CoffeeBuffer {
 		return img;
 	}
 	
+	/**
+	 * Returns an object of CoffeeRenderer with current buffer as parameter.
+	 * @param font
+	 * @return a CoffeeRenderer object
+	 */
+	public CoffeeRenderer getRenderer(CoffeeFont font) {
+		return new CoffeeRenderer(this, font);
+	}
+	
+	/**
+	 * Returns an object of CoffeeRenderer with current buffer as parameter using the default font ("Serif", Plain, 16).
+	 * @return a CoffeeRenderer object
+	 */
+	public CoffeeRenderer getRenderer() {
+		return this.getRenderer(new CoffeeFont(new Font("Serif", Font.PLAIN, 16)));
+	}
 	
 	public boolean boundaryCheckScreen(int x, int y) {
 		return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
