@@ -30,7 +30,10 @@ public class CoffeeBuffer {
 		buffer = new int[width * height];
 		size = new Dimension(width, height);
 	}
-	
+	public CoffeeBuffer(CoffeeBuffer other) {
+		this.buffer = other.buffer.clone();
+		this.size = new Dimension(other.size);
+	}
 	
 	public int get(int index) {
 		if (!boundaryCheckBuffer(index)) {
