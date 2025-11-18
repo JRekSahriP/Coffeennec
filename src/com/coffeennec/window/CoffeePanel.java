@@ -25,15 +25,15 @@ public class CoffeePanel extends JPanel {
 	private int FPS;
 	
 	public CoffeePanel(CoffeeWindow window) {
-		running = true;
-		paused = false;
+		this.running = true;
+		this.paused = false;
 		
-		setMaxFPS(60);
+		this.setMaxFPS(60);
 		
-		FPS = 0;
+		this.FPS = 0;
 		
 		this.window = window;
-		initThread();
+		this.initThread();
 	}
 	
 	private void initThread() {
@@ -41,30 +41,30 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	private void run() {
-		buffer = new CoffeeBuffer(window.getWidth(), window.getHeight());
+		this.buffer = new CoffeeBuffer(this.window.getWidth(), this.window.getHeight());
 		
 		long lastTime = System.nanoTime();
 		double delta = 0.0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
 
-		while (running) {
+		while (this.running) {
 			long atual = System.nanoTime();
-			delta += (atual - lastTime) / tickTime;
+			delta += (atual - lastTime) / this.tickTime;
 			lastTime = atual;
 			
-			if (!paused) {
+			if (!this.paused) {
 				if (delta >= 1) {
-					update();
-					repaint();
-					updateStates();
+					this.update();
+					this.repaint();
+					this.updateStates();
 					frames++;
 					delta--;
 				}
 			}
 			
 			if (System.currentTimeMillis() - timer >= 1000) {
-				FPS = frames;
+				this.FPS = frames;
 				timer += 1000;
 				frames = 0;
 			}
@@ -72,14 +72,14 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	private void update() {
-		window.update();
+		this.window.update();
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		window.draw(buffer);
-		g.drawImage(buffer.toImage(), 0, 0, null);
+		this.window.draw(this.buffer);
+		g.drawImage(this.buffer.toImage(), 0, 0, null);
 	}
 	
 	private void updateStates() {
@@ -88,23 +88,23 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	public void pauseLoop() {
-		paused = true;
+		this.paused = true;
 	}
 	
 	public void continueLoop() {
-		paused = false;
+		this.paused = false;
 	}
 	
 	public void stopLoop() {
-		running = false;
+		this.running = false;
 	}
 	
 	public int getFPS() {
-		return FPS;
+		return this.FPS;
 	}
 	public void setMaxFPS(int fps) {
-		maxFPS = fps;
-		tickTime = 1_000_000_000.0 / maxFPS;
+		this.maxFPS = fps;
+		this.tickTime = 1_000_000_000.0 / this.maxFPS;
 	}
 	
 	

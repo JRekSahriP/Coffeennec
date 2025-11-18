@@ -21,12 +21,12 @@ public class Camera2D implements Renderable {
 	
 	@Override
 	public void render(CoffeeBuffer b) {
-		float zoom = getZoom() / 100f;
-		int offsetX = (int) (getX());
-		int offsetY = (int) (getY());
+		float zoom = this.getZoom() / 100f;
+		int offsetX = (int) (this.getX());
+		int offsetY = (int) (this.getY());
 
-		int centerX = getWidth() / 2;
-		int centerY = getHeight() / 2;
+		int centerX = this.getWidth() / 2;
+		int centerY = this.getHeight() / 2;
 
 		int zoomOffsetX = (int) (centerX - (centerX * zoom));
 		int zoomOffsetY = (int) (centerY - (centerY * zoom));
@@ -36,27 +36,27 @@ public class Camera2D implements Renderable {
 				int srcX = (int) ((x - zoomOffsetX) / zoom) + offsetX;
 				int srcY = (int) ((y - zoomOffsetY) / zoom) + offsetY;
 				
-				if (!buffer.boundaryCheckScreen(srcX, srcY)) {
+				if (!this.buffer.boundaryCheckScreen(srcX, srcY)) {
 					continue;
 				}
 				
-				int color = buffer.get(srcX, srcY);
+				int color = this.buffer.get(srcX, srcY);
 				b.set(x, y, color);
 			}
 		}
 	}
 	
 	public void renderAndClear(CoffeeBuffer b) {
-		render(b);
-		clearBuffer();
+		this.render(b);
+		this.clearBuffer();
 	}
 	
 	public void clearBuffer() {
-		buffer.fill(0xFFFFFFFF);
+		this.buffer.fill(0xFFFFFFFF);
 	}
 	
 	public CoffeeBuffer getBuffer() {
-		return buffer;
+		return this.buffer;
 	}
 	
 	
@@ -77,13 +77,13 @@ public class Camera2D implements Renderable {
 		this.setPosition(new Point2D(x, y));
 	}
 	public void setPosition(Point2D point) {
-		position = point;
+		this.position = point;
 	}
 	public void setX(int x) {
-		position.x = x;
+		this.position.x = x;
 	}
 	public void setY(int y) {
-		position.y = y;
+		this.position.y = y;
 	}
 	public void setZoom(float zoom) {
 		this.zoom = zoom;
@@ -92,27 +92,27 @@ public class Camera2D implements Renderable {
 
 	
 	public Dimension getSize() {
-		return size;
+		return this.size;
 	}
 	public int getWidth() {
-		return size.width;
+		return this.size.width;
 	}
 	public int getHeight() {
-		return size.height;
+		return this.size.height;
 	}
 	
 	public Point2D getPosition() {
-		return position;
+		return this.position;
 	}
 	public float getX() {
-		return position.x;
+		return this.position.x;
 	}
 	public float getY() {
-		return position.y;
+		return this.position.y;
 	}
 	
 	public float getZoom() {
-		return zoom;
+		return this.zoom;
 	}
 
 }

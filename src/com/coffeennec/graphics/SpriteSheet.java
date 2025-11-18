@@ -24,7 +24,7 @@ public class SpriteSheet {
 		int maxFramesX = spriteSheet.getWidth() / frameWidth;
 		int maxFramesY = spriteSheet.getHeight() / frameHeight;
 		this.maxFrames = new int[maxFramesY];
-		Arrays.fill(maxFrames, maxFramesX);
+		Arrays.fill(this.maxFrames, maxFramesX);
 		
 		this.cd = new Cooldown(frameDelay);
 		
@@ -33,20 +33,20 @@ public class SpriteSheet {
 	}
 	
 	public CoffeeBuffer nextSprite() {
-		if (cd.isInCooldown()) {
-			return new CoffeeBuffer(lastFrame);
+		if (this.cd.isInCooldown()) {
+			return new CoffeeBuffer(this.lastFrame);
 		}
 		
-		final Dimension s = defaultFrameSize;
+		final Dimension s = this.defaultFrameSize;
 		CoffeeBuffer sprite = new CoffeeBuffer(s.width, s.height);
-		int x = frame % maxFrames[yPos] * s.width;
-		int y = yPos * s.height;
+		int x = this.frame % this.maxFrames[this.yPos] * s.width;
+		int y = this.yPos * s.height;
 		
-		sprite.blit(spriteSheet.subBuffer(x, y, sprite.getWidth(), sprite.getHeight()), 0, 0);
-		lastFrame = sprite;
+		sprite.blit(this.spriteSheet.subBuffer(x, y, sprite.getWidth(), sprite.getHeight()), 0, 0);
+		this.lastFrame = sprite;
 		
-		frame++;
-		cd.use();
+		this.frame++;
+		this.cd.use();
 		return sprite;
 	}
 	
@@ -57,11 +57,11 @@ public class SpriteSheet {
 	 * @param row - The new row index
 	 */
 	public void setRow(int row) {
-		if (yPos != row) {
-			frame = 0;
-			cd.reset();
+		if (this.yPos != row) {
+			this.frame = 0;
+			this.cd.reset();
 		}
-		yPos = row;
+		this.yPos = row;
 	}
 	
 	/**
@@ -77,24 +77,24 @@ public class SpriteSheet {
 	}
 	
 	public void setMaxVerticalFrames(int maxVerticalFrames) {
-		int maxFramesX = spriteSheet.getWidth() / defaultFrameSize.width;
-		maxFrames = new int[maxVerticalFrames];
-		Arrays.fill(maxFrames, maxFramesX);
+		int maxFramesX = this.spriteSheet.getWidth() / this.defaultFrameSize.width;
+		this.maxFrames = new int[maxVerticalFrames];
+		Arrays.fill(this.maxFrames, maxFramesX);
 	}
 	public void setMaxHorizontalFrames(int row, int maxHorizontalFrames) {
-		maxFrames[row] = maxHorizontalFrames;
+		this.maxFrames[row] = maxHorizontalFrames;
 	}
 
 	public void setDelay(int delay) {
-		cd.setDuration(delay);
+		this.cd.setDuration(delay);
 	}
 	
 	public long getDelay() {
-		return cd.getDuration();
+		return this.cd.getDuration();
 	}
 	
 	public int getCurrentRow() {
-		return yPos;
+		return this.yPos;
 	}
 	
 }

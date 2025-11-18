@@ -21,7 +21,7 @@ public class ParticleWaveMove implements ParticleMovement {
 		float deltaY = (float) (Math.sin(radians) * particle.getSpeed());
 		
 		float perpendicularRadius = (float) (radians + Math.PI / 2.0);
-		float oscillation = (float) (waveAmplitude * Math.sin(particle.getAge() * waveFrequency));
+		float oscillation = (float) (this.waveAmplitude * Math.sin(particle.getAge() * this.waveFrequency));
 		
 		Point2D pos = particle.getPosition();
 		pos.x += deltaX + Math.cos(perpendicularRadius) * oscillation;

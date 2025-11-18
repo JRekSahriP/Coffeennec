@@ -37,8 +37,8 @@ public class Particle extends GameObject {
 	
 	
 	public Particle(Point2D position, Dimension size, float speed, float angle, float rotationSpeed, Hex[] colors, ParticleEffect effect, ParticleMovement movement, Predicate<Particle> condition) {
-		initialPosition = position;
-		this.position = new Point2D(initialPosition);
+		this.initialPosition = position;
+		this.position = new Point2D(this.initialPosition);
 		this.size = size;
 		this.speed = speed;
 		this.angle = angle;
@@ -46,13 +46,13 @@ public class Particle extends GameObject {
 		this.colors = colors;
 		this.effect = effect;
 		this.movement = movement;
-		disposeCondition = condition;
+		this.disposeCondition = condition;
 
 		
-		rotation = 0;
-		currentColor = colors[0];
-		colorIdx = new AtomicInteger(0);
-		age = 0;
+		this.rotation = 0;
+		this.currentColor = colors[0];
+		this.colorIdx = new AtomicInteger(0);
+		this.age = 0;
 	}	
 	
 	public Particle(Particle other) {
@@ -72,46 +72,46 @@ public class Particle extends GameObject {
 	
 	@Override
 	public void update() {
-		move();
-		randomMove();
-		setColor();
-		age++;
+		this.move();
+		this.randomMove();
+		this.setColor();
+		this.age++;
 	}
 
 	
 	private void move() {
-		movement.move(this);
+		this.movement.move(this);
 	}
 	
 	private void randomMove() {
 		Point2D amount = new Point2D();
-		amount.x = FennecMath.random(-1.0f, 1.0f) * speed;
-		amount.y = FennecMath.random(-1.0f, 1.0f) * speed;
-		position.add(amount);
+		amount.x = FennecMath.random(-1.0f, 1.0f) * this.speed;
+		amount.y = FennecMath.random(-1.0f, 1.0f) * this.speed;
+		this.position.add(amount);
 	}
 	
 	private void setColor() {
-		if (colors.length == 1) {
-			currentColor = colors[0];
+		if (this.colors.length == 1) {
+			this.currentColor = this.colors[0];
 		}
-		currentColor = effect.nextColor(colors, colorIdx);
+		this.currentColor = this.effect.nextColor(this.colors, this.colorIdx);
 	}
 	
 	@Override
 	public void render(CoffeeBuffer b) {
-		int x = (int) position.x;
-		int y = (int) position.y;
-		int width = size.width;
-		int height = size.height;
-		b.getRenderer().fillRect(x, y, width, height, currentColor);
+		int x = (int) this.position.x;
+		int y = (int) this.position.y;
+		int width = this.size.width;
+		int height = this.size.height;
+		b.getRenderer().fillRect(x, y, width, height, this.currentColor);
 	}
 	
 	public boolean isEnded() {
-		return disposeCondition.test(this);
+		return this.disposeCondition.test(this);
 	}
 
 	public Point2D getPosition() {
-		return position;
+		return this.position;
 	}
 
 	public void setPosition(Point2D position) {
@@ -119,7 +119,7 @@ public class Particle extends GameObject {
 	}
 
 	public Dimension getSize() {
-		return size;
+		return this.size;
 	}
 
 	public void setSize(Dimension size) {
@@ -127,7 +127,7 @@ public class Particle extends GameObject {
 	}
 
 	public float getSpeed() {
-		return speed;
+		return this.speed;
 	}
 
 	public void setSpeed(float speed) {
@@ -135,7 +135,7 @@ public class Particle extends GameObject {
 	}
 
 	public float getAngle() {
-		return angle;
+		return this.angle;
 	}
 
 	public void setAngle(float angle) {
@@ -143,7 +143,7 @@ public class Particle extends GameObject {
 	}
 
 	public float getRotationSpeed() {
-		return rotationSpeed;
+		return this.rotationSpeed;
 	}
 
 	public void setRotationSpeed(float rotationSpeed) {
@@ -151,7 +151,7 @@ public class Particle extends GameObject {
 	}
 
 	public float getRotation() {
-		return rotation;
+		return this.rotation;
 	}
 
 	public void setRotation(float rotation) {
@@ -159,7 +159,7 @@ public class Particle extends GameObject {
 	}
 
 	public Hex[] getColors() {
-		return colors;
+		return this.colors;
 	}
 
 	public void setColors(Hex[] colors) {
@@ -167,27 +167,27 @@ public class Particle extends GameObject {
 	}
 
 	public AtomicInteger getColorIdx() {
-		return colorIdx;
+		return this.colorIdx;
 	}
 
 	public int getAge() {
-		return age;
+		return this.age;
 	}
 
 	public Point2D getInitialPosition() {
-		return initialPosition;
+		return this.initialPosition;
 	}
 
 	public Predicate<Particle> getDisposeCondition() {
-		return disposeCondition;
+		return this.disposeCondition;
 	}
 
 	public ParticleEffect getEffect() {
-		return effect;
+		return this.effect;
 	}
 
 	public ParticleMovement getMovement() {
-		return movement;
+		return this.movement;
 	}
 
 	

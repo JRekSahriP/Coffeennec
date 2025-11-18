@@ -81,7 +81,7 @@ public class Point2D {
 	}
 	
 	public float length() {
-		return (float) Math.sqrt(x * x + y * y);
+		return (float) Math.sqrt(this.x * this.x + this.y * this.y);
 	}
 	public static Point2D normalize(Point2D p) {
 		float length = p.length();
@@ -89,8 +89,8 @@ public class Point2D {
 	}
 	public Point2D normalize() {
 		float length = this.length();
-		this.x = x / length;
-		this.y = y / length;
+		this.x = this.x / length;
+		this.y = this.y / length;
 		return this;
 	}
 	
@@ -132,8 +132,8 @@ public class Point2D {
 	 */
 	public float getAxis(int axis) {
         switch (axis) {
-            case 0: return x;
-            case 1: return y;
+            case 0: return this.x;
+            case 1: return this.y;
             default: {
             	FennecString.eprintf("Invalid axis {}\n", axis);
             	return Float.NaN;
@@ -159,7 +159,7 @@ public class Point2D {
 	
 	@Override
 	public String toString() {
-		return FennecString.format("{x: {}, y: {}}\n", x, y);
+		return FennecString.format("{x: {}, y: {}}\n", this.x, this.y);
 	}
 	
 }

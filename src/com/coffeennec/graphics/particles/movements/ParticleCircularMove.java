@@ -16,8 +16,8 @@ public class ParticleCircularMove implements ParticleMovement {
 		float angle = (float) Math.toRadians(particle.getAngle() + (particle.getAge() * particle.getSpeed()));
 		
 		Point2D pos = particle.getPosition();
-		pos.x = particle.getInitialPosition().x + radius * (float) Math.cos(angle);
-		pos.y = particle.getInitialPosition().y + radius * (float) Math.sin(angle);
+		pos.x = particle.getInitialPosition().x + this.radius * (float) Math.cos(angle);
+		pos.y = particle.getInitialPosition().y + this.radius * (float) Math.sin(angle);
 	}
 
 }

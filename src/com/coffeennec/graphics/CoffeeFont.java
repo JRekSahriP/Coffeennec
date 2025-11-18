@@ -26,7 +26,7 @@ public class CoffeeFont {
 		Graphics2D g2d = temp.createGraphics();
 		
 		FontRenderContext frc =	g2d.getFontRenderContext();
-		Rectangle2D bounds = font.getStringBounds(text, frc);
+		Rectangle2D bounds = this.font.getStringBounds(text, frc);
 		
         int width = (int) Math.ceil(bounds.getWidth());
         int height = (int) Math.ceil(bounds.getHeight());
@@ -34,7 +34,7 @@ public class CoffeeFont {
         BufferedImage fontImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2dFont = fontImage.createGraphics();
 
-        g2dFont.setFont(font);
+        g2dFont.setFont(this.font);
         g2dFont.setColor(new Color(color.getHex()));
         g2dFont.drawString(text, 0, (int) -bounds.getY());
         g2dFont.dispose();

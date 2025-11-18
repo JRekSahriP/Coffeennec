@@ -23,10 +23,10 @@ public class AABBData {
 	}
 	
 	public Point2D getMin() {
-		return min;
+		return this.min;
 	}
 	public Point2D getMax() {
-		return max;
+		return this.max;
 	}
 
 }

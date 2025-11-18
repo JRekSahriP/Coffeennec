@@ -17,18 +17,18 @@ public class CoffeeBuffer {
 	public CoffeeBuffer(BufferedImage image) {
 
 		if(image.getRaster().getDataBuffer() instanceof DataBufferInt) {
-			buffer = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+			this.buffer = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 		} else {
-			buffer = new int[image.getWidth() * image.getHeight()];
-			image.getRGB(0, 0, image.getWidth(), image.getHeight(), buffer, 0, image.getWidth());
+			this.buffer = new int[image.getWidth() * image.getHeight()];
+			image.getRGB(0, 0, image.getWidth(), image.getHeight(), this.buffer, 0, image.getWidth());
 		}
 		
-		size = new Dimension(image.getWidth(), image.getHeight());
+		this.size = new Dimension(image.getWidth(), image.getHeight());
 		
 	}
 	public CoffeeBuffer(int width, int height) {
-		buffer = new int[width * height];
-		size = new Dimension(width, height);
+		this.buffer = new int[width * height];
+		this.size = new Dimension(width, height);
 	}
 	public CoffeeBuffer(CoffeeBuffer other) {
 		this.buffer = other.buffer.clone();
@@ -36,34 +36,34 @@ public class CoffeeBuffer {
 	}
 	
 	public int get(int index) {
-		if (!boundaryCheckBuffer(index)) {
+		if (!this.boundaryCheckBuffer(index)) {
 			return -1;
 		}
 		
-		return buffer[index];
+		return this.buffer[index];
 	}
 	public int get(int x, int y) {
-		return get(y * getWidth() + x);
+		return this.get(y * this.getWidth() + x);
 	}
 	
 	public void set(int index, int value) {
-		if (!boundaryCheckBuffer(index)) {
+		if (!this.boundaryCheckBuffer(index)) {
 			return;
 		}
 		
-		buffer[index] = value;
+		this.buffer[index] = value;
 	}
 	public void set(int x, int y, int value) {
-		set(y * getWidth() + x, value);
+		this.set(y * this.getWidth() + x, value);
 	}
 	
 	public void fill(int value) {
-		Arrays.fill(buffer, value);
+		Arrays.fill(this.buffer, value);
 	}
 	
 	public CoffeeBuffer scale(int newWidth, int newHeight) {
 
-		if (getWidth() == newWidth && getHeight() == newHeight) {
+		if (this.getWidth() == newWidth && this.getHeight() == newHeight) {
 			return this;
 		}
 		
@@ -73,16 +73,16 @@ public class CoffeeBuffer {
 		}
 
 	    CoffeeBuffer scaledBuffer = new CoffeeBuffer(newWidth, newHeight);
-	    double scaleX = newWidth / (double)getWidth();
-	    double scaleY = newHeight / (double)getHeight();
+	    double scaleX = newWidth / (double)this.getWidth();
+	    double scaleY = newHeight / (double)this.getHeight();
 	    for (int y = 0; y < newHeight; y++) {
 	        for (int x = 0; x < newWidth; x++) {
 	            double srcX = x / scaleX;
 	            double srcY = y / scaleY;
 	            int srcXInt = (int) srcX;
 	            int srcYInt = (int) srcY;
-	            if (boundaryCheckScreen(srcXInt, srcYInt)) {
-	                scaledBuffer.set(x, y, get(srcXInt, srcYInt));
+	            if (this.boundaryCheckScreen(srcXInt, srcYInt)) {
+	                scaledBuffer.set(x, y, this.get(srcXInt, srcYInt));
 	            }
 	        }
 	    }
@@ -90,16 +90,16 @@ public class CoffeeBuffer {
 	}
 
 	public CoffeeBuffer scale(double scale) {
-		return scale((int)(getWidth() * scale), (int)(getHeight() * scale));
+		return this.scale((int)(this.getWidth() * scale), (int)(this.getHeight() * scale));
 	}
 	
 	public CoffeeBuffer subBuffer(int x, int y, int width, int height) {
-		if(width < 0 || width > getWidth()) {
-	        FennecString.eprintf("Error: width [{}] is invalid. It should be between 0 and the source buffer's width [{}].\n", width, getWidth());
+		if(width < 0 || width > this.getWidth()) {
+	        FennecString.eprintf("Error: width [{}] is invalid. It should be between 0 and the source buffer's width [{}].\n", width, this.getWidth());
 	    }
 	    
-	    if(height < 0 || height > getHeight()) {
-	        FennecString.eprintf("Error: height [{}] is invalid. It should be between 0 and the source buffer's height [{}].\n", height, getHeight());
+	    if(height < 0 || height > this.getHeight()) {
+	        FennecString.eprintf("Error: height [{}] is invalid. It should be between 0 and the source buffer's height [{}].\n", height, this.getHeight());
 	    }
 	    
 	    
@@ -109,11 +109,11 @@ public class CoffeeBuffer {
 			for (int xx = 0; xx < width; xx++) {
 				int px = xx + x;
 				
-				if (!boundaryCheckScreen(px, py)) {
+				if (!this.boundaryCheckScreen(px, py)) {
 					continue;
 				}
 				
-				int rgb = get(px, py);
+				int rgb = this.get(px, py);
 				output.set(xx, yy, rgb);
 			}
 		}
@@ -149,11 +149,11 @@ public class CoffeeBuffer {
 				if (ignoreIf.test(argb)) {
 					continue;
 				}
-				if (!boundaryCheckScreen(px, py)) {
+				if (!this.boundaryCheckScreen(px, py)) {
 					continue;
 				}
 				
-				set(px, py, argb);
+				this.set(px, py, argb);
 			}
 			
 		}
@@ -167,14 +167,14 @@ public class CoffeeBuffer {
 	 * @param y
 	 */
 	public void blit(CoffeeBuffer other, int x, int y) {
-		blit(other, x, y, other.size.width, other.size.height, c -> c == 0x00000000);
+		this.blit(other, x, y, other.size.width, other.size.height, c -> c == 0x00000000);
 	}
 
 	
 	public BufferedImage toImage() {
-		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		int[] imgBuffer = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
-		System.arraycopy(buffer, 0, imgBuffer, 0, buffer.length);
+		System.arraycopy(this.buffer, 0, imgBuffer, 0, this.buffer.length);
 		return img;
 	}
 	
@@ -196,28 +196,28 @@ public class CoffeeBuffer {
 	}
 	
 	public boolean boundaryCheckScreen(int x, int y) {
-		return x >= 0 && x < getWidth() && y >= 0 && y < getHeight();
+		return x >= 0 && x < this.getWidth() && y >= 0 && y < this.getHeight();
 	}
 	
 	public boolean boundaryCheckBuffer(int idx) {
-		return idx >= 0 && idx < getBufferSize();
+		return idx >= 0 && idx < this.getBufferSize();
 	}
 	public boolean boundaryCheckBuffer(int x, int y) {
-		return boundaryCheckBuffer(y * getWidth() + x);
+		return this.boundaryCheckBuffer(y * this.getWidth() + x);
 	}
 
 	
 	public int getWidth() {
-		return size.width;
+		return this.size.width;
 	}
 	public int getHeight() {
-		return size.height;
+		return this.size.height;
 	}
 	public int getBufferSize() {
-		return buffer.length;
+		return this.buffer.length;
 	}
 	public int[] getBuffer() {
-		return buffer;
+		return this.buffer;
 	}
 	
 }

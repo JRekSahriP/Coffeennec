@@ -10,10 +10,10 @@ public class RangeData {
 	}
 
 	public float getMin() {
-		return min;
+		return this.min;
 	}
 	public float getMax() {
-		return max;
+		return this.max;
 	}
 	
 }

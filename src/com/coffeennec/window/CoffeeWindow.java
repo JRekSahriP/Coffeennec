@@ -19,7 +19,7 @@ public abstract class CoffeeWindow extends JFrame {
 
 		this.panel = new CoffeePanel(this);	
 		this.panel.pauseLoop();
-		this.add(panel);
+		this.add(this.panel);
 		this.setWindowSize(600, 600);
 	
 		
@@ -28,10 +28,10 @@ public abstract class CoffeeWindow extends JFrame {
 		this.addFennecKeys();
 		this.addFennecCursor();
 		
-		initializer(); 
-		config();
+		this.initializer(); 
+		this.config();
 
-		panel.continueLoop();
+		this.panel.continueLoop();
 		this.setVisible(true);
 		this.validate();
 		this.repaint();

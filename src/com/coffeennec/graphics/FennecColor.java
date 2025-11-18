@@ -4,9 +4,9 @@ public class FennecColor {
 
 	public static Hex getRandomHex(boolean hasAlpha) {
 	    int alpha = hasAlpha ? (int)(Math.random() * 256) : 255;
-	    int red = (int)(Math.random() * 256);
-	    int green = (int)(Math.random() * 256);
-	    int blue = (int)(Math.random() * 256);
+	    int red = (int) (Math.random() * 256);
+	    int green = (int) (Math.random() * 256);
+	    int blue = (int) (Math.random() * 256);
 	    return new Hex(alpha, red, green, blue);
 	}
 	
@@ -61,52 +61,52 @@ public class FennecColor {
 			this(255, r, g, b);
 		}
 		public Hex(int a, int r, int g, int b) {
-			set(a, r, g, b);
+			this.set(a, r, g, b);
 		}
 		public Hex(int hex) {
-			value = hex;
+			this.value = hex;
 		}
 		
 		
 		public int getA() {
-			return (value >> 24) & 0xFF;
+			return (this.value >> 24) & 0xFF;
 		}
 		public int getR() {
-			return (value >> 16) & 0xFF;
+			return (this.value >> 16) & 0xFF;
 		}
 		public int getG() {
-			return (value >> 8) & 0xFF;
+			return (this.value >> 8) & 0xFF;
 		}
 		public int getB() {
-			return (value) & 0xFF;
+			return (this.value) & 0xFF;
 		}
 		
 		public void setA(int alpha) {
-			value = (value & 0x00FFFFFF) | (alpha << 24);
+			this.value = (this.value & 0x00FFFFFF) | (alpha << 24);
 		}
 		public void setR(int red) {
-			value = (value & 0xFF00FFFF) | (red << 16);
+			this.value = (this.value & 0xFF00FFFF) | (red << 16);
 		}
 		public void setG(int green) {
-			value = (value & 0xFFFF00FF) | (green << 8);
+			this.value = (this.value & 0xFFFF00FF) | (green << 8);
 		}
 		public void setB(int blue) {
-			value = (value & 0xFFFFFF00) | (blue);
+			this.value = (this.value & 0xFFFFFF00) | (blue);
 		}
 		public void set(int a, int r, int g, int b) {
-		    setA(a);
-		    setR(r);
-		    setG(g);
-		    setB(b);
+		    this.setA(a);
+		    this.setR(r);
+		    this.setG(g);
+		    this.setB(b);
 		}
 		
 
 		public int getHex() {
-			return value;
+			return this.value;
 		}
 		
 		public void setHex(int hex) {
-			value = hex;
+			this.value = hex;
 		}
 		
 

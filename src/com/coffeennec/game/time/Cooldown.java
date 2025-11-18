@@ -16,45 +16,45 @@ public class Cooldown {
 	
 	
 	public boolean isInCooldown() {
-		if (isPaused) {
-			return duration - pausedTimer <= 0;
+		if (this.isPaused) {
+			return this.duration - this.pausedTimer <= 0;
 		}
-		return (System.currentTimeMillis() - timer) < duration;
+		return (System.currentTimeMillis() - this.timer) < this.duration;
 	}
 	
 	public void use() {
-		timer = System.currentTimeMillis();
+		this.timer = System.currentTimeMillis();
 	}
 	
 	public void reset() {
-		timer = 0l;
+		this.timer = 0l;
 	}
 	
 	public void addTime(long amount) {
-		timer += amount;
+		this.timer += amount;
 	}
 	
 	public void pauseTimer(boolean paused) {
-		isPaused = paused;
+		this.isPaused = paused;
 		
-		if (isPaused) {
-			pausedTimer = System.currentTimeMillis();
+		if (this.isPaused) {
+			this.pausedTimer = System.currentTimeMillis();
 		} else {
-			timer += (System.currentTimeMillis() - pausedTimer);
+			this.timer += (System.currentTimeMillis() - this.pausedTimer);
 		}
 	}
 	
 	public long getRemainingTime() {
-		if (isPaused) {
-			return duration - (pausedTimer - timer);
+		if (this.isPaused) {
+			return this.duration - (this.pausedTimer - this.timer);
 		}
 		
-		long remaining = duration - (System.currentTimeMillis() - timer);
+		long remaining = this.duration - (System.currentTimeMillis() - this.timer);
 		return remaining > 0 ? remaining : 0l;
 	}
 	
 	public boolean isPaused() {
-		return isPaused;
+		return this.isPaused;
 	}
 	
 	public void setDuration(long duration) {
@@ -62,11 +62,11 @@ public class Cooldown {
 	}
 	
 	public long getDuration() {
-		return duration;
+		return this.duration;
 	}
 	
 	public long getTimer() {
-		return timer;
+		return this.timer;
 	}
 	
 }

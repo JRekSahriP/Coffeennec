@@ -9,38 +9,38 @@ public abstract class GameObjectHandler<T extends GameObject> extends GameObject
 	private List<T> objectList;
 	
 	public GameObjectHandler() {
-		objectList = new ArrayList<>();
+		this.objectList = new ArrayList<>();
 	}
 	
 	@Override
 	public void update() {
-		getCopyList().forEach(e -> {
+		this.getCopyList().forEach(e -> {
 			if (e != null) e.update();
 		});
 	}
 	
 	@Override
 	public void render(CoffeeBuffer b) {
-		getCopyList().forEach(e -> {
+		this.getCopyList().forEach(e -> {
 			if (e != null) e.render(b);
 		});
 	}
 	
 
 	public void add(T object) {
-		objectList.add(object);
+		this.objectList.add(object);
 	}
 	public void remove(T object) {
-		objectList.remove(object);
+		this.objectList.remove(object);
 	}
 	public void clear() {
-		objectList.clear();
+		this.objectList.clear();
 	}
 	
 	public List<T> getList() {
-		return objectList;
+		return this.objectList;
 	}
 	public List<T> getCopyList() {
-		return new ArrayList<>(objectList);
+		return new ArrayList<>(this.objectList);
 	}
 }

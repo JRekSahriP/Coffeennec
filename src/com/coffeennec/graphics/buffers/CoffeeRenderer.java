@@ -58,7 +58,7 @@ public class CoffeeRenderer {
 		
 	}
 	public void drawLine(int x1, int y1, int x2, int y2, Hex color) {
-		drawLine(new Point2D(x1, y1), new Point2D(x2, y2), color);
+		this.drawLine(new Point2D(x1, y1), new Point2D(x2, y2), color);
 	}
 	
 	private void drawRectangle(int x, int y, int width, int height, Hex color, boolean fill) {
@@ -117,16 +117,16 @@ public class CoffeeRenderer {
 	}
 	
 	public void drawEllipse(int x, int y, int width, int height, Hex color) {
-		drawEllipse(x, y, width, height, color, false);
+		this.drawEllipse(x, y, width, height, color, false);
 	}
 	public void fillEllipse(int x, int y, int width, int height, Hex color) {
-		drawEllipse(x, y, width, height, color, true);
+		this.drawEllipse(x, y, width, height, color, true);
 	}
 	public void drawCircle(int x, int y, int diameter, Hex color) {
-		drawEllipse(x, y, diameter, diameter, color, false);
+		this.drawEllipse(x, y, diameter, diameter, color, false);
 	}
 	public void fillCircle(int x, int y, int diameter, Hex color) {
-		drawEllipse(x, y, diameter, diameter, color, true);
+		this.drawEllipse(x, y, diameter, diameter, color, true);
 	}
 		
 	public void drawPolygon(Point2D[] points, Hex color) {
@@ -190,7 +190,7 @@ public class CoffeeRenderer {
 	        triangleUvs[0] = uvs[0];
 	        triangleUvs[1] = uvs[i + 1];
 	        triangleUvs[2] = uvs[i + 2];
-	        fillTexturedTriangle(triangleVertices, triangleUvs, texture);
+	        this.fillTexturedTriangle(triangleVertices, triangleUvs, texture);
 	    }
 	}
 	public void fillTexturedTriangle(Point2D[] vertices, Point2D[] uvs, CoffeeBuffer texture) {
@@ -229,10 +229,10 @@ public class CoffeeRenderer {
 		
 	
 	public void drawString(String text, int x, int y, Hex color) {
-		if (font == null) {
+		if (this.font == null) {
 			FennecString.eprintf("Cannot Write {}, because font is not definied.\nFont == null\n", text);
 		}
-		buffer.blit(font.drawText(text, color), x, y);
+		this.buffer.blit(this.font.drawText(text, color), x, y);
 	}
 
 	

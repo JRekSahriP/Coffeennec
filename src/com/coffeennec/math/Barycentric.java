@@ -15,31 +15,31 @@ public class Barycentric {
 	 private double y;
 
 	 public Barycentric(Point2D[] points) {
-		 x2 = points[2].x;
-		 y2 = points[2].y;
+		 this.x2 = points[2].x;
+		 this.y2 = points[2].y;
 
-		 y1y2 = points[1].y - y2;
-		 x2x1 = x2 - points[1].x;
-		 y2y0 = y2 - points[0].y;
-		 x0x2 = points[0].x - x2;
+		 this.y1y2 = points[1].y - this.y2;
+		 this.x2x1 = this.x2 - points[1].x;
+		 this.y2y0 = this.y2 - points[0].y;
+		 this.x0x2 = points[0].x - this.x2;
 
-		 invArea = 1.0 / (
-				 (y1y2) * (x0x2) + 
-				 (x2x1) * (points[0].y - y2)
+		 this.invArea = 1.0 / (
+				 (this.y1y2) * (this.x0x2) + 
+				 (this.x2x1) * (points[0].y - this.y2)
 				 );
 	 }
 
 	 public void setX(int x) {
-		 this.x = x - x2;
+		 this.x = x - this.x2;
 	 }
 	 public void setY(int y) {
-		 this.y = y - y2;
+		 this.y = y - this.y2;
 	 }
 
 	 public double[] getWeights() {
 		 double[] weights = new double[3];
-		 weights[0] = (y1y2 * x + x2x1 * y) * invArea;
-		 weights[1] = (y2y0 * x + x0x2 * y) * invArea;
+		 weights[0] = (this.y1y2 * this.x + this.x2x1 * this.y) * this.invArea;
+		 weights[1] = (this.y2y0 * this.x + this.x0x2 * this.y) * this.invArea;
 		 weights[2] = 1 - weights[0] - weights[1];
 		 return weights;
 	 }
