@@ -1,3 +1,7 @@
 # Coffeennec
 
-A Java game library for creating games more easily and quickly.
+This is the core source code for the Coffeennec, a game library designed to simplify game development.
+
+**Status**: Work In Progress (WIP)
+
+
