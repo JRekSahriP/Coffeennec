@@ -21,6 +21,7 @@ public class RectangleBody extends Body {
 				new Point2D( width / 2f,  height / 2f),
 				new Point2D(-width / 2f,  height / 2f)	
 		};
+		this.transformedVertices = new Point2D[4];
 	}
 
 	@Override
@@ -55,13 +56,22 @@ public class RectangleBody extends Body {
 
 	@Override
 	public Point2D[] getTransformedVertices() {
-		if (this.isStatic || !this.canRotate ) {
-			return this.initialVertices.clone();
-		}
-
-		if (!this.transformUpdateRequired && this.transformedVertices != null) {
+		if (!this.transformUpdateRequired) {
 			return this.transformedVertices;
 		}
+
+		if (this.isStatic || !this.canRotate) {
+	        for (int i = 0; i < this.initialVertices.length; i++) {
+	            this.transformedVertices[i] = Point2D.sum(this.initialVertices[i], this.position);
+	        }
+
+	        if (this.isStatic) {
+	            this.transformUpdateRequired = false; 
+	        }
+
+	        return this.transformedVertices;
+	    }
+		
 
 		Transform2D transform = new Transform2D(this.position, this.rotation);
 		for (int i = 0; i < 4; i++) {
