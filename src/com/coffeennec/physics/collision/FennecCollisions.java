@@ -131,7 +131,7 @@ public class FennecCollisions {
 		
 		data.setNormal(Point2D.zero());
 		data.setDepth(Float.MAX_VALUE);
-		Point2D minPenetrationAxis = null;
+		Point2D minPenetrationAxis = Point2D.zero();
 		
 		for (int i = 0; i < verticesA.length; i++) {
 			Point2D p1 = verticesA[i];
