@@ -3,6 +3,8 @@ package com.coffeennec.physics.bodies;
 import com.coffeennec.graphics.buffers.CoffeeBuffer;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.math.data.AABBData;
+import com.coffeennec.physics.collision.FennecCollisions;
+import com.coffeennec.physics.data.CollisionData;
 
 public class CircleBody extends Body {
 
@@ -49,7 +51,29 @@ public class CircleBody extends Body {
 	}
 
 	public float getRadius() {
-		return radius;
+		return this.radius;
+	}
+
+	@Override
+	public CollisionData collideWith(Body other) {
+
+		if (other instanceof RectangleBody) {
+			return FennecCollisions.intersectCircleAndPolygon(
+					this.getPosition(), this.getRadius(),
+					other.getPosition(), other.getTransformedVertices()
+					);
+		}	
+		
+		if (other instanceof CircleBody) {
+			return FennecCollisions.intersectCircles(
+					this.getPosition(), this.getRadius(),
+					other.getPosition(), ((CircleBody)other).getRadius()
+					);				
+		}
+		
+		CollisionData data = new CollisionData();
+		data.setResult(false);
+		return data;
 	}
 
 }

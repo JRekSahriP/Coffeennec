@@ -3,8 +3,6 @@ package com.coffeennec.physics.collision;
 import com.coffeennec.math.FennecMath;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.physics.bodies.Body;
-import com.coffeennec.physics.bodies.CircleBody;
-import com.coffeennec.physics.bodies.RectangleBody;
 import com.coffeennec.physics.data.CollisionData;
 
 public class CollisionResolver {
@@ -17,44 +15,7 @@ public class CollisionResolver {
 
 	
 	public static CollisionData collide(Body bodyA, Body bodyB) {
-		CollisionData data = new CollisionData();
-		
-		Point2D posA = bodyA.getPosition();
-		Point2D posB = bodyB.getPosition();
-		
-		if (bodyA instanceof RectangleBody) {
-			if (bodyB instanceof RectangleBody) {
-				return FennecCollisions.intersectPolygons(
-						posA, bodyA.getTransformedVertices(),
-						posB, bodyB.getTransformedVertices()
-						);
-			} else
-			if (bodyB instanceof CircleBody) {
-				data = FennecCollisions.intersectCircleAndPolygon(
-						posB, ((CircleBody)bodyB).getRadius(),
-						posA, bodyA.getTransformedVertices()
-						);
-				data.setNormal(Point2D.inverse(data.getNormal()));
-				return data;
-			}
-		} else 
-		if (bodyA instanceof CircleBody) {
-			if (bodyB instanceof RectangleBody) {
-				return FennecCollisions.intersectCircleAndPolygon(
-						posA, ((CircleBody)bodyA).getRadius(),
-						posB, bodyB.getTransformedVertices()
-						);
-			}	
-			if (bodyB instanceof CircleBody) {
-				return FennecCollisions.intersectCircles(
-						posA, ((CircleBody)bodyA).getRadius(),
-						posB, ((CircleBody)bodyB).getRadius()
-						);				
-			}
-		}
-		
-		data.setResult(false); // if none of above
-		return data;
+		return bodyA.collideWith(bodyB);
 	}
 	
 	

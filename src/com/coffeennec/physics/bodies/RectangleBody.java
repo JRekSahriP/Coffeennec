@@ -4,6 +4,8 @@ import com.coffeennec.graphics.buffers.CoffeeBuffer;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.math.Transform2D;
 import com.coffeennec.math.data.AABBData;
+import com.coffeennec.physics.collision.FennecCollisions;
+import com.coffeennec.physics.data.CollisionData;
 
 public class RectangleBody extends Body {
 
@@ -84,15 +86,39 @@ public class RectangleBody extends Body {
 	}
 
 	public float getWidth() {
-		return width;
+		return this.width;
 	}
 
 	public float getHeight() {
-		return height;
+		return this.height;
 	}
 
 	public Point2D[] getInitialVertices() {
-		return initialVertices.clone();
+		return this.initialVertices.clone();
+	}
+
+	@Override
+	public CollisionData collideWith(Body other) {
+
+		if (other instanceof RectangleBody) {
+			return FennecCollisions.intersectPolygons(
+					this.getPosition(), this.getTransformedVertices(),
+					other.getPosition(), other.getTransformedVertices()
+					);
+		}
+		
+		if (other instanceof CircleBody) {
+			CollisionData data = FennecCollisions.intersectCircleAndPolygon(
+					other.getPosition(), ((CircleBody)other).getRadius(),
+					this.getPosition(), this.getTransformedVertices()
+					);
+			data.setNormal(Point2D.inverse(data.getNormal()));
+			return data;
+		}
+		
+		CollisionData data = new CollisionData();
+		data.setResult(false);
+		return data;
 	}
 	
 }

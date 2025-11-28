@@ -3,6 +3,7 @@ package com.coffeennec.physics.bodies;
 import com.coffeennec.game.abstractions.GameObject;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.math.data.AABBData;
+import com.coffeennec.physics.data.CollisionData;
 
 public abstract class Body extends GameObject {
 	protected Point2D position;
@@ -57,6 +58,8 @@ public abstract class Body extends GameObject {
 		this.transformedVertices = null;
 	}
 
+	public abstract CollisionData collideWith(Body other);
+	
 	protected abstract float calculateInertiaValue();
 	protected void setInertia(float inertia) {
 		this.inertia = inertia;
@@ -98,6 +101,8 @@ public abstract class Body extends GameObject {
 		this.transformUpdateRequired = true;
 		this.aabbUpdateRequired = true;
 	}
+	
+	
 
 	public Point2D getLinearVelocityWithRotation(Point2D r) {
 		if (this.canRotate) {
