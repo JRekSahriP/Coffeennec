@@ -24,6 +24,7 @@ public class RectangleBody extends Body {
 				new Point2D(-width / 2f,  height / 2f)	
 		};
 		this.transformedVertices = new Point2D[4];
+		this.computeInertia();
 	}
 
 	@Override

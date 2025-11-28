@@ -14,6 +14,7 @@ public class CircleBody extends Body {
 		super(position, density, (float) (density * (radius * radius * Math.PI)), restitution, (float) (radius * radius * Math.PI), isStatic, canRotate);
 		this.radius = radius;
 		this.transformedVertices = new Point2D[1];
+		this.computeInertia();
 	}
 	
 	@Override

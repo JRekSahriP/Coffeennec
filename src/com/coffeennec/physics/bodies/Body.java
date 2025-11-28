@@ -45,13 +45,6 @@ public abstract class Body extends GameObject {
 		this.angularDamping = 1;
 		this.torque = 0f;
 
-		if (this.isStatic || !this.canRotate) {
-			this.inertia = 0f;
-			this.invInertia = 0f;
-		} else {
-			this.setInertia(this.calculateInertiaValue());
-		}
-
 		this.transformUpdateRequired = true;
 		this.aabbUpdateRequired = true;
 
@@ -70,7 +63,9 @@ public abstract class Body extends GameObject {
 	public abstract Point2D[] getTransformedVertices();
 
 	public void applyForce(Point2D force, Point2D point) {
-		if (this.isStatic) return;
+		if (this.isStatic) {
+			return;
+		}
 
 		this.force.add(force);
 
@@ -81,7 +76,9 @@ public abstract class Body extends GameObject {
 	}
 
 	public void step(float deltaTime, int iterations, Point2D gravity) {
-		if (this.isStatic) return;
+		if (this.isStatic) {
+			return;
+		}
 
 		float time = deltaTime / iterations;
 
@@ -234,6 +231,14 @@ public abstract class Body extends GameObject {
 		this.torque = torque;
 	}
 
+	public void computeInertia() {
+		if (this.isStatic || !this.canRotate) {
+			this.inertia = 0f;
+			this.invInertia = 0f;
+		} else {
+			this.setInertia(this.calculateInertiaValue());
+		}
+	}
 	public float getInertia() {
 		return this.inertia;
 	}
