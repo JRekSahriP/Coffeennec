@@ -213,7 +213,7 @@ public abstract class Body extends GameObject {
 		this.isStatic = isStatic;
 	}
 
-	public boolean isCanRotate() {
+	public boolean canRotate() {
 		return this.canRotate;
 	}
 
