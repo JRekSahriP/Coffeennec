@@ -1,4 +1,4 @@
-package com.coffeennec.physics;
+package com.coffeennec.physics.collision;
 
 import java.util.ArrayList;
 import java.util.List;
