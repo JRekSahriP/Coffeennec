@@ -156,7 +156,7 @@ public class FennecCollisions {
 			Point2D p2 = verticesB[(i + 1) % verticesB.length];
 			Point2D axis = FennecCollisions.calculateEdgeAxis(p1, p2);
 			
-			AxisOverlapData overlap = FennecCollisions.checkAxisOverlap(verticesB, verticesB, axis);
+			AxisOverlapData overlap = FennecCollisions.checkAxisOverlap(verticesA, verticesB, axis);
 			
 			if (!overlap.isOverlapping()) {
 				data.setResult(false);
