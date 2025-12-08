@@ -21,11 +21,13 @@ public abstract class Body extends GameObject {
 	protected float torque, inertia, invInertia;
 	protected float angularDamping; // 0 - 1 (1 = no damping)
 
+	protected float friction;
+	
 	protected boolean transformUpdateRequired, aabbUpdateRequired;
 
 	protected Point2D[] transformedVertices;
 
-	protected Body(Point2D position, float density, float restitution, float area,
+	protected Body(Point2D position, float density, float restitution, float friction, float area,
 			boolean isStatic, boolean canRotate) {
 
 		this.position = position;
@@ -44,6 +46,7 @@ public abstract class Body extends GameObject {
 		this.canRotate = canRotate;
 		this.angularDamping = 1;
 		this.torque = 0f;
+		this.friction = friction;
 
 		this.transformUpdateRequired = true;
 		this.aabbUpdateRequired = true;
@@ -229,6 +232,14 @@ public abstract class Body extends GameObject {
 
 	public void setTorque(float torque) {
 		this.torque = torque;
+	}
+	
+	public float getFriction() {
+		return friction;
+	}
+
+	public void setFriction(float friction) {
+		this.friction = friction;
 	}
 
 	public void computeInertia() {

@@ -10,8 +10,8 @@ public class CircleBody extends Body {
 
 	private final float radius;
 
-	protected CircleBody(Point2D position, float radius, float density, float restitution, boolean isStatic, boolean canRotate) {
-		super(position, density, restitution, (float) (radius * radius * Math.PI), isStatic, canRotate);
+	protected CircleBody(Point2D position, float radius, float density, float restitution, float friction, boolean isStatic, boolean canRotate) {
+		super(position, density, restitution, friction, (float) (radius * radius * Math.PI), isStatic, canRotate);
 		this.radius = radius;
 		this.transformedVertices = new Point2D[1];
 		this.computeInertia();
