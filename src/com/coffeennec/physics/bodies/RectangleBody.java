@@ -101,7 +101,7 @@ public class RectangleBody extends Body {
 	@Override
 	public CollisionData collideWith(Body other) {
 
-		if (other instanceof RectangleBody) {
+		if (other instanceof RectangleBody || other instanceof ConvexPolygonBody) {
 			return FennecCollisions.intersectPolygons(
 					this.getPosition(), this.getTransformedVertices(),
 					other.getPosition(), other.getTransformedVertices()

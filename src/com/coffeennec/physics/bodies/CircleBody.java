@@ -58,7 +58,7 @@ public class CircleBody extends Body {
 	@Override
 	public CollisionData collideWith(Body other) {
 
-		if (other instanceof RectangleBody) {
+		if (other instanceof RectangleBody || other instanceof ConvexPolygonBody) {
 			return FennecCollisions.intersectCircleAndPolygon(
 					this.getPosition(), this.getRadius(),
 					other.getPosition(), other.getTransformedVertices()
