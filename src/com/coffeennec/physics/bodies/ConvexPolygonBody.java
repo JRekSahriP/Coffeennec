@@ -12,7 +12,7 @@ public class ConvexPolygonBody extends Body {
 	private Point2D[] initialVertices;
 	
 	protected ConvexPolygonBody(Point2D position, Point2D[] vertices, float density, float restitution, boolean isStatic, boolean canRotate, boolean centerVertices) {
-		super(position, density, density * calculateArea(vertices), restitution, calculateArea(vertices), isStatic, canRotate);
+		super(position, density, restitution, calculateArea(vertices), isStatic, canRotate);
 		this.initialVertices = vertices.clone();
 		
 		if (centerVertices) {

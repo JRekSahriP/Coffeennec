@@ -14,7 +14,7 @@ public class RectangleBody extends Body {
 	private Point2D[] initialVertices;
 
 	protected RectangleBody(Point2D position, float width, float height, float density, float restitution, boolean isStatic, boolean canRotate) {
-		super(position, density, density * (width * height), restitution, (width * height), isStatic, canRotate);
+		super(position, density, restitution, (width * height), isStatic, canRotate);
 		this.width = width;
 		this.height = height;
 		this.initialVertices = new Point2D[] {

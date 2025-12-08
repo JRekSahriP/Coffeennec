@@ -25,7 +25,7 @@ public abstract class Body extends GameObject {
 
 	protected Point2D[] transformedVertices;
 
-	protected Body(Point2D position, float density, float mass, float restitution, float area,
+	protected Body(Point2D position, float density, float restitution, float area,
 			boolean isStatic, boolean canRotate) {
 
 		this.position = position;
@@ -35,9 +35,9 @@ public abstract class Body extends GameObject {
 		this.force = Point2D.zero();
 
 		this.density = density;
-		this.mass = mass;
-		this.restitution = restitution;
 		this.area = area;
+		this.mass = density * area;
+		this.restitution = restitution;
 		this.isStatic = isStatic;
 
 		this.invMass = this.isStatic ? 0f : (1f / this.mass);
