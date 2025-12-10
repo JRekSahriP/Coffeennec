@@ -94,6 +94,10 @@ public class Point2D {
 		return this;
 	}
 	
+	public static float magnitude(Point2D p) {
+		return (float) Math.sqrt((p.x * p.x) + (p.y * p.y));
+	}
+	
 	public static float dot(Point2D p1, Point2D p2) {
         return p1.x * p2.x + p1.y * p2.y;
     }
