@@ -23,7 +23,9 @@ public class CoffeeRenderer {
 	}
 	
 	
-	
+	public void setPixel(int x, int y, Hex color) {
+		this.buffer.set(x, y, color.getHex());
+	}
 	public void drawLine(Point2D p1, Point2D p2, Hex color) {
 		int deltaX = (int) Math.abs(p2.x - p1.x);
 		int deltaY = (int) Math.abs(p2.y - p1.y);
