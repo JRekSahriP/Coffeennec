@@ -13,19 +13,31 @@ public class CoffeeRenderer {
 	private CoffeeBuffer buffer;
 	private CoffeeFont font;
 	
+	private Point2D offset;
 
 	public CoffeeRenderer(CoffeeBuffer buffer, CoffeeFont font) {
 		this.buffer = buffer;
 		this.font = font;
+		this.offset = Point2D.zero();
 	}
 	public CoffeeRenderer(CoffeeBuffer buffer) {
 		this(buffer, null);
 	}
 	
-	
-	public void setPixel(int x, int y, Hex color) {
-		this.buffer.set(x, y, color.getHex());
+
+	public void setPixel(int x, int y, int color) {
+		this.buffer.set(x, y, color);
 	}
+	
+	public void setOffsetPixel(int worldX, int worldY, int color) {
+        int screenX = worldX - (int) this.offset.x;
+        int screenY = worldY - (int) this.offset.y;
+        
+        if (this.buffer.boundaryCheckScreen(screenX, screenY)) {
+            this.buffer.set(screenX, screenY, color);
+        }
+    }
+	
 	public void drawLine(Point2D p1, Point2D p2, Hex color) {
 		int deltaX = (int) Math.abs(p2.x - p1.x);
 		int deltaY = (int) Math.abs(p2.y - p1.y);
@@ -39,9 +51,7 @@ public class CoffeeRenderer {
 		int y = (int) p1.y;
 		
 		while (true) {
-			if (!this.buffer.boundaryCheckScreen(x,y)) break;
-			
-			this.buffer.set(x, y, color.getHex());
+			this.setOffsetPixel((int)p1.x, (int)p1.y, color.getHex());
 			
 			int e2 = 2 * err;
 			if (e2 > -deltaY) {
@@ -72,10 +82,7 @@ public class CoffeeRenderer {
 						i != x && i != x + width - 1)) {
 					continue;
 				}
-				
-				if (this.buffer.boundaryCheckScreen(i, j)) {
-					this.buffer.set(i, j, color.getHex());
-				}
+				this.setOffsetPixel(i, j, color.getHex());
 			}
 		}
 	}
@@ -110,10 +117,7 @@ public class CoffeeRenderer {
 					continue;
 				}
 			
-				
-				if (this.buffer.boundaryCheckScreen(i, j)) {
-					this.buffer.set(i, j, color.getHex());
-				}
+				this.setOffsetPixel(i, j, color.getHex());
 			}
 		}
 	}
@@ -173,7 +177,7 @@ public class CoffeeRenderer {
 					int startX = intersections.get(i);
 					int endX = intersections.get(i + 1);
 					for (int x = startX; x <= endX; x++) {
-						this.buffer.set(x, y, color.getHex());
+						this.setOffsetPixel(x, y, color.getHex());
 					}
 				}
 			}
@@ -221,10 +225,7 @@ public class CoffeeRenderer {
                 double uvY = uvs[0].y * weights[0] + uvs[1].y * weights[1] + uvs[2].y * weights[2];
                 int textureX = (int) (uvX * texture.getWidth());
                 int textureY = (int) (uvY * texture.getHeight());
-                if (this.buffer.boundaryCheckScreen(x, y)) {
-                    this.buffer.set(x, y, texture.get(textureX, textureY));
-                }
-            
+                this.setOffsetPixel(x, y, texture.get(textureX, textureY));
 	        }
 	    }
 	}
@@ -234,9 +235,13 @@ public class CoffeeRenderer {
 		if (this.font == null) {
 			FennecString.eprintf("Cannot Write {}, because font is not definied.\nFont == null\n", text);
 		}
-		this.buffer.blit(this.font.drawText(text, color), x, y);
+		this.buffer.blit(this.font.drawText(text, color), x - (int)this.offset.x, y - (int)this.offset.y);
 	}
 
+	public void setOffset(Point2D offset) {
+		this.offset = offset;
+	}
+	
 	public int getWidth() {
 		return this.buffer.getWidth();
 	}

@@ -3,7 +3,6 @@ package com.coffeennec.graphics.camera;
 import java.awt.Dimension;
 
 import com.coffeennec.game.interfaces.Renderable;
-import com.coffeennec.graphics.FennecColor.Hex;
 import com.coffeennec.graphics.buffers.CoffeeBuffer;
 import com.coffeennec.graphics.buffers.CoffeeRenderer;
 import com.coffeennec.math.Point2D;
@@ -24,9 +23,7 @@ public class Camera2D implements Renderable {
 	@Override
 	public void render(CoffeeRenderer r) {
 		float zoom = this.getZoom() / 100f;
-		int offsetX = (int) (this.getX());
-		int offsetY = (int) (this.getY());
-
+		
 		int centerX = this.getWidth() / 2;
 		int centerY = this.getHeight() / 2;
 
@@ -35,15 +32,15 @@ public class Camera2D implements Renderable {
 
 		for (int y = 0; y < r.getHeight(); y++) {
 			for (int x = 0; x < r.getWidth(); x++) {
-				int srcX = (int) ((x - zoomOffsetX) / zoom) + offsetX;
-				int srcY = (int) ((y - zoomOffsetY) / zoom) + offsetY;
+				int srcX = (int) ((x - zoomOffsetX) / zoom);
+				int srcY = (int) ((y - zoomOffsetY) / zoom);
 				
 				if (!this.buffer.boundaryCheckScreen(srcX, srcY)) {
 					continue;
 				}
 				
 				int color = this.buffer.get(srcX, srcY);
-				r.setPixel(x, y, new Hex(color));
+				r.setPixel(x, y, color);
 			}
 		}
 	}
