@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import com.coffeennec.game.abstractions.GameObject;
 import com.coffeennec.graphics.FennecColor.Hex;
-import com.coffeennec.graphics.buffers.CoffeeBuffer;
+import com.coffeennec.graphics.buffers.CoffeeRenderer;
 import com.coffeennec.graphics.particles.effects.ParticleEffect;
 import com.coffeennec.graphics.particles.movements.ParticleMovement;
 import com.coffeennec.math.FennecMath;
@@ -98,12 +98,12 @@ public class Particle extends GameObject {
 	}
 	
 	@Override
-	public void render(CoffeeBuffer b) {
+	public void render(CoffeeRenderer r) {
 		int x = (int) this.position.x;
 		int y = (int) this.position.y;
 		int width = this.size.width;
 		int height = this.size.height;
-		b.getRenderer().fillRect(x, y, width, height, this.currentColor);
+		r.fillRect(x, y, width, height, this.currentColor);
 	}
 	
 	public boolean isEnded() {

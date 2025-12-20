@@ -3,7 +3,7 @@ package com.coffeennec.game.abstractions;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coffeennec.graphics.buffers.CoffeeBuffer;
+import com.coffeennec.graphics.buffers.CoffeeRenderer;
 
 public abstract class GameObjectHandler<T extends GameObject> extends GameObject {
 	private List<T> objectList;
@@ -20,9 +20,9 @@ public abstract class GameObjectHandler<T extends GameObject> extends GameObject
 	}
 	
 	@Override
-	public void render(CoffeeBuffer b) {
+	public void render(CoffeeRenderer r) {
 		this.getCopyList().forEach(e -> {
-			if (e != null) e.render(b);
+			if (e != null) e.render(r);
 		});
 	}
 	

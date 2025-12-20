@@ -1,7 +1,7 @@
 package com.coffeennec.game.interfaces;
 
-import com.coffeennec.graphics.buffers.CoffeeBuffer;
+import com.coffeennec.graphics.buffers.CoffeeRenderer;
 
 public interface Renderable {
-	public void render(CoffeeBuffer b);
+	public void render(CoffeeRenderer r);
 }

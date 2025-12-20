@@ -1,6 +1,6 @@
 package com.coffeennec.physics.bodies;
 
-import com.coffeennec.graphics.buffers.CoffeeBuffer;
+import com.coffeennec.graphics.buffers.CoffeeRenderer;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.math.Transform2D;
 import com.coffeennec.math.data.AABBData;
@@ -31,7 +31,7 @@ public class RectangleBody extends Body {
 	public void update() {}
 
 	@Override
-	public void render(CoffeeBuffer b) {}
+	public void render(CoffeeRenderer r) {}
 
 	@Override
 	protected float calculateInertiaValue() {
