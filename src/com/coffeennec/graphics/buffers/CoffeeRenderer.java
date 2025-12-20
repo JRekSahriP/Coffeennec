@@ -237,5 +237,12 @@ public class CoffeeRenderer {
 		this.buffer.blit(this.font.drawText(text, color), x, y);
 	}
 
+	public int getWidth() {
+		return this.buffer.getWidth();
+	}
+	
+	public int getHeight() {
+		return this.buffer.getHeight();
+	}
 	
 }
