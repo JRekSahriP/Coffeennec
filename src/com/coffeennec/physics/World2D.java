@@ -33,6 +33,10 @@ public class World2D extends GameObjectHandler<Body> {
 					if (bodyA.isStatic() && bodyB.isStatic()) {
 						continue;
 					}
+		
+					if (!Body.shouldCollide(bodyA, bodyB)) {
+						continue;
+					}
 					
 					CollisionData data = CollisionResolver.collide(bodyA, bodyB);
 					

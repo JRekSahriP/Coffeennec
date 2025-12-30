@@ -4,10 +4,16 @@ import com.coffeennec.game.abstractions.GameObject;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.math.data.AABBData;
 import com.coffeennec.physics.data.CollisionData;
+import com.coffeennec.strings.FennecString;
 
 public abstract class Body extends GameObject {
 	protected Point2D position;
 
+//	protected List<Integer> groupID;
+	protected long categoryBits;
+	protected long maskBits;
+	
+	
 	private Point2D linearVelocity;
 
 	protected float rotation, rotationVelocity;
@@ -52,6 +58,9 @@ public abstract class Body extends GameObject {
 		this.aabbUpdateRequired = true;
 
 		this.transformedVertices = null;
+
+		this.setCategory(0);
+		this.setCollisionWithAll();
 	}
 
 	public abstract CollisionData collideWith(Body other);
@@ -130,6 +139,38 @@ public abstract class Body extends GameObject {
 		this.aabbUpdateRequired = true;
 	}
 
+	
+	public void setCategory(int groupId) {
+		if (!verifyGroupId(groupId)) return;
+		
+		this.categoryBits = (1l << groupId);
+	}
+	public void addCollisionWith(int groupId) {
+		if (!verifyGroupId(groupId)) return;
+		
+		this.maskBits |= (1l << groupId);
+	}
+	public void removeCollisionWith(int groupId) {
+		if (!verifyGroupId(groupId)) return;
+		
+		this.maskBits &= ~(1l << groupId);
+	}
+	public void setCollisionWithAll() {
+		this.maskBits = -1l;
+	}
+	public static boolean shouldCollide(Body bodyA, Body bodyB) {
+		return  (bodyA.maskBits & bodyB.categoryBits) != 0 &&
+				(bodyB.maskBits & bodyA.categoryBits) != 0;
+	}
+	
+	private boolean verifyGroupId(int groupId) {
+		if (groupId < 0 || groupId >= 64) {
+	        FennecString.eprintf("Invalid GroupId (0-63): {}", groupId);
+	        return false;
+	    }
+		return true;
+	}
+	
 	public Point2D getPosition() {
 		return this.position;
 	}
