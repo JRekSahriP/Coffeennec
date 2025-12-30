@@ -47,24 +47,29 @@ public class CoffeeRenderer {
 		
 		int err = deltaX - deltaY;
 		
-		int x = (int) p1.x;
-		int y = (int) p1.y;
+		
+		int x1 = (int) p1.x;
+		int y1 = (int) p1.y;
+		
+		int x2 = (int) p2.x;
+		int y2 = (int) p2.y;
 		
 		while (true) {
-			this.setOffsetPixel((int)p1.x, (int)p1.y, color.getHex());
 			
+			this.setOffsetPixel(x1, y1, color.getHex());
+			
+			if (Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1) break;
+
 			int e2 = 2 * err;
 			if (e2 > -deltaY) {
 				err -= deltaY;
-				x += addX;
+				x1 += addX;
 			}
 			
 			if (e2 < deltaX) {
 				err += deltaX;
-				y += addY;
+				y1 += addY;
 			}
-			
-		    if (Math.abs(x - (int) p2.x) <= 1 && Math.abs(y - (int) p2.y) <= 1) break;
 		        
 		}
 		
