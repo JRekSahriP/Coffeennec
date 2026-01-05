@@ -1,12 +1,19 @@
 package com.coffeennec.physics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.coffeennec.game.abstractions.GameObjectHandler;
 import com.coffeennec.math.Point2D;
 import com.coffeennec.physics.bodies.Body;
 import com.coffeennec.physics.collision.CollisionResolver;
 import com.coffeennec.physics.data.CollisionData;
+import com.coffeennec.physics.joints.Joint;
 
 public class World2D extends GameObjectHandler<Body> {
+
+	private List<Joint> joints;
+	
 	private Point2D gravity;
 	private float time;
 	private int iterations;
@@ -16,64 +23,77 @@ public class World2D extends GameObjectHandler<Body> {
 		this.gravity = gravity;
 		this.time = time;
 		this.iterations = iterations;
+		this.joints = new ArrayList<>();
 	}
 
 	@Override
 	public void update() {
 		for (int iteration = 0; iteration < this.iterations; iteration++) {
-			for (int i = 0; i < this.getBodyCount(); i++) {
-				this.getList().get(i).step(this.time, this.iterations, this.gravity);
-			}
-			
-			for (int i = 0; i < this.getBodyCount() - 1; i++) {
-				Body bodyA = this.getList().get(i);
-				for (int j = i + 1; j < this.getBodyCount(); j++) {
-					Body bodyB = this.getList().get(j);					
-					
-					if (bodyA.isStatic() && bodyB.isStatic()) {
-						continue;
-					}
+			this.updateBodies();
+			this.updateJoints();
+		}
+	}
+	
+	public void updateBodies() {
+		List<Body> list = this.getList();
 		
-					if (!Body.shouldCollide(bodyA, bodyB)) {
-						continue;
-					}
-					
-					CollisionData data = CollisionResolver.collide(bodyA, bodyB);
-					
-					if (!data.getResult()) {
-						continue;
-					}
-					
+		for (int i = 0; i < this.getBodyCount(); i++) {
+			list.get(i).step(this.time, this.iterations, this.gravity);
+		}
+		
+		for (int i = 0; i < this.getBodyCount() - 1; i++) {
+			Body bodyA = list.get(i);
+			for (int j = i + 1; j < this.getBodyCount(); j++) {
+				Body bodyB = list.get(j);					
+				
+				if (bodyA.isStatic() && bodyB.isStatic()) {
+					continue;
+				}
+	
+				if (!Body.shouldCollide(bodyA, bodyB)) {
+					continue;
+				}
+				
+				CollisionData data = CollisionResolver.collide(bodyA, bodyB);
+				
+				if (!data.getResult()) {
+					continue;
+				}
+				
 
-					if (bodyA.isStatic()) {
-						
-						Point2D amount = Point2D.multiply(data.getNormal(), data.getDepth());
-						bodyB.move(amount);
+				if (bodyA.isStatic()) {
 					
-					} else if (bodyB.isStatic()) {
-					
-						Point2D amount = Point2D.multiply(Point2D.inverse(data.getNormal()), data.getDepth());
-						bodyA.move(amount);
-					
-					} else {
-					
-						Point2D amountA = Point2D.multiply(Point2D.inverse(data.getNormal()), data.getDepth());
-						amountA.divide(2f);
+					Point2D amount = Point2D.multiply(data.getNormal(), data.getDepth());
+					bodyB.move(amount);
+				
+				} else if (bodyB.isStatic()) {
+				
+					Point2D amount = Point2D.multiply(Point2D.inverse(data.getNormal()), data.getDepth());
+					bodyA.move(amount);
+				
+				} else {
+				
+					Point2D amountA = Point2D.multiply(Point2D.inverse(data.getNormal()), data.getDepth());
+					amountA.divide(2f);
 
-						Point2D amountB = Point2D.multiply(data.getNormal(), data.getDepth());
-						amountB.divide(2f);
+					Point2D amountB = Point2D.multiply(data.getNormal(), data.getDepth());
+					amountB.divide(2f);
 
-						bodyA.move(amountA);
-						bodyB.move(amountB);
-					
-					}
-					
-					CollisionResolver.resolveCollision(bodyA, bodyB, data);
-				}	
-			}
+					bodyA.move(amountA);
+					bodyB.move(amountB);
+				
+				}
+				
+				CollisionResolver.resolveCollision(bodyA, bodyB, data);
+			}	
 		}
 	}
 		
+	private void updateJoints() {
+		this.joints.forEach(j -> j.solve(this.time));
+		this.joints.removeIf(j -> j.isBroke());
+	}
+	
 	public void removeBody(int index) {
 		this.getList().remove(index);
 	}
@@ -86,8 +106,31 @@ public class World2D extends GameObjectHandler<Body> {
 		return this.getCopyList().size();
 	}
 	
+	
+	public void addJoint(Joint joint) {
+		this.joints.add(joint);
+		
+	}
+	public void addJointIfAbsent(Joint joint) {
+		if (this.joints.contains(joint)) {
+			return;
+		}
+		this.joints.add(joint);
+	}
+	
+	public void removeJoint(Joint joint) {
+		this.joints.remove(joint);
+	}
+	
+	public Joint getJoint(int index) {
+		return this.joints.get(index);
+	}
+	public int getJointCount() {
+		return this.joints.size();
+	}
+	
 	public float getTime() {
-		return time;
+		return this.time;
 	}
 
 	public void setTime(float time) {
@@ -95,7 +138,7 @@ public class World2D extends GameObjectHandler<Body> {
 	}
 
 	public int getIterations() {
-		return iterations;
+		return this.iterations;
 	}
 
 	public void setIterations(int iterations) {
