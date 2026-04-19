@@ -1,6 +1,8 @@
 package org.coffeennec.window;
 
 import java.awt.Graphics;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 
@@ -33,6 +35,15 @@ public class CoffeePanel extends JPanel {
 		this.FPS = 0;
 		
 		this.window = window;
+		
+		this.buffer = new CoffeeBuffer(this.window.getWidth(), this.window.getHeight());
+		this.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				buffer = new CoffeeBuffer(getWidth(), getHeight());
+			}
+		});
+		
 		this.initThread();
 	}
 	
@@ -41,8 +52,6 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	private void run() {
-		this.buffer = new CoffeeBuffer(this.window.getWidth(), this.window.getHeight());
-		
 		long lastTime = System.nanoTime();
 		double delta = 0.0;
 		long timer = System.currentTimeMillis();

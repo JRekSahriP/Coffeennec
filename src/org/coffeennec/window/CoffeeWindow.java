@@ -23,14 +23,13 @@ public abstract class CoffeeWindow extends JFrame {
 		this.setWindowSize(600, 600);
 	
 		
-		this.setLocationRelativeTo(null);
-		
 		this.addFennecKeys();
 		this.addFennecCursor();
 		
 		this.initializer(); 
 		this.config();
 
+		this.setLocationRelativeTo(null);
 		this.panel.continueLoop();
 		this.setVisible(true);
 		this.validate();
