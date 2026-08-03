@@ -44,10 +44,10 @@ public abstract class CoffeeWindow extends JFrame {
 	
 	
 	private void addFennecKeys() {
-		this.addKeyListener(new FennecKeys());
+		this.addKeyListener(FennecKeys.getInstance());
 	}
 	private void addFennecCursor() {
-		FennecCursor fc = new FennecCursor();
+		FennecCursor fc = FennecCursor.getInstance();
 		this.panel.addMouseListener(fc);
 		this.panel.addMouseMotionListener(fc);
 		this.panel.addMouseWheelListener(fc);

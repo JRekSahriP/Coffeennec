@@ -92,8 +92,8 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	private void updateStates() {
-		FennecKeys.update();
-		FennecCursor.update();
+		FennecKeys.getInstance().update();
+		FennecCursor.getInstance().update();
 	}
 	
 	public void pauseLoop() {

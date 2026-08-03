@@ -4,11 +4,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class FennecKeys extends KeyAdapter {
-	private static boolean[] pressedKeys = new boolean[65535];
-	private static boolean[] typedKeys = new boolean[65535];
+public final class FennecKeys extends KeyAdapter {
+	private static final FennecKeys instance = new FennecKeys();
+
+	private boolean[] pressedKeys = new boolean[65535];
+	private boolean[] typedKeys = new boolean[65535];
 	
-	public static void update() {
+	private FennecKeys() {}
+	
+	public static FennecKeys getInstance() {
+		return instance;
+	}
+	
+	public void update() {
 		Arrays.fill(typedKeys, false);
 	}
 	
@@ -30,17 +38,17 @@ public class FennecKeys extends KeyAdapter {
 	}
 	
 
-	public static boolean isPressed(char key) {
+	public boolean isPressed(char key) {
 		return isPressed(KeyEvent.getExtendedKeyCodeForChar(key));
 	}
-	public static boolean isPressed(int key) {
+	public boolean isPressed(int key) {
 		return pressedKeys[key];
 	}
 	
-	public static boolean isTyped(char key) {
+	public boolean isTyped(char key) {
 		return isTyped(KeyEvent.getExtendedKeyCodeForChar(key));
 	}
-	public static boolean isTyped(int key) {
+	public boolean isTyped(int key) {
 		return typedKeys[key];
 	}
 	
