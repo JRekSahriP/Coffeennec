@@ -6,11 +6,11 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 
+import org.coffeennec.game.contexts.GameContext;
+import org.coffeennec.game.contexts.RenderContext;
 import org.coffeennec.graphics.buffers.CoffeeBuffer;
-import org.coffeennec.input.FennecCursor;
-import org.coffeennec.input.FennecKeys;
 
-public class CoffeePanel extends JPanel {
+public class CoffeePanel<G extends GameContext, R extends RenderContext> extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	@SuppressWarnings("unused")
@@ -19,14 +19,14 @@ public class CoffeePanel extends JPanel {
 	private volatile boolean paused;
 	
 	
-	private CoffeeWindow window;
+	private CoffeeWindow<G, R> window;
 	private CoffeeBuffer buffer;
 	
 	private int maxFPS;
 	private double tickTime;
 	private int FPS;
 	
-	public CoffeePanel(CoffeeWindow window) {
+	public CoffeePanel(CoffeeWindow<G, R> window) {
 		this.running = true;
 		this.paused = false;
 		
@@ -64,9 +64,8 @@ public class CoffeePanel extends JPanel {
 			
 			if (!this.paused) {
 				if (delta >= 1) {
-					this.update();
+					this.update(delta);
 					this.repaint();
-					this.updateStates();
 					frames++;
 					delta--;
 				}
@@ -80,20 +79,19 @@ public class CoffeePanel extends JPanel {
 		}
 	}
 	
-	private void update() {
-		this.window.update();
+	private void update(double delta) {
+		G context = this.window.getGameContext();
+		context.setDeltaTime(delta);
+		this.window.update(context);
+		context.updateState();
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.window.draw(this.buffer);
-		g.drawImage(this.buffer.toImage(), 0, 0, null);
-	}
-	
-	private void updateStates() {
-		FennecKeys.getInstance().update();
-		FennecCursor.getInstance().update();
+		R context = this.window.getRenderContext();
+		this.window.draw(context);
+		g.drawImage(context.getBuffer().toImage(), 0, 0, null);
 	}
 	
 	public void pauseLoop() {
@@ -109,12 +107,15 @@ public class CoffeePanel extends JPanel {
 	}
 	
 	public int getFPS() {
-		return this.FPS;
+		return FPS;
 	}
 	public void setMaxFPS(int fps) {
 		this.maxFPS = fps;
 		this.tickTime = 1_000_000_000.0 / this.maxFPS;
 	}
 	
+	public CoffeeBuffer getBuffer() {
+		return buffer;
+	}
 	
 }
