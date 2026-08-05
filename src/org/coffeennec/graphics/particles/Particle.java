@@ -5,6 +5,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 import org.coffeennec.game.abstractions.GameObject;
+import org.coffeennec.game.contexts.GameContext;
+import org.coffeennec.game.contexts.RenderContext;
 import org.coffeennec.graphics.FennecColor.Hex;
 import org.coffeennec.graphics.buffers.CoffeeRenderer;
 import org.coffeennec.graphics.particles.effects.ParticleEffect;
@@ -71,7 +73,7 @@ public class Particle extends GameObject {
     }
 	
 	@Override
-	public void update() {
+	public void update(GameContext ctx) {
 		this.move();
 		this.randomMove();
 		this.setColor();
@@ -98,7 +100,8 @@ public class Particle extends GameObject {
 	}
 	
 	@Override
-	public void render(CoffeeRenderer r) {
+	public void render(RenderContext ctx) {
+		CoffeeRenderer r = ctx.getRenderer();
 		int x = (int) this.position.x;
 		int y = (int) this.position.y;
 		int width = this.size.width;

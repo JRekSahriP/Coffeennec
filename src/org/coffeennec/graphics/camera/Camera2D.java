@@ -2,6 +2,7 @@ package org.coffeennec.graphics.camera;
 
 import java.awt.Dimension;
 
+import org.coffeennec.game.contexts.RenderContext;
 import org.coffeennec.game.interfaces.Renderable;
 import org.coffeennec.graphics.buffers.CoffeeBuffer;
 import org.coffeennec.graphics.buffers.CoffeeRenderer;
@@ -21,7 +22,8 @@ public class Camera2D implements Renderable {
 	}
 	
 	@Override
-	public void render(CoffeeRenderer r) {
+	public void render(RenderContext ctx) {
+		CoffeeRenderer r = ctx.getRenderer();
 		float zoom = this.getZoom() / 100f;
 		
 		int centerX = this.getWidth() / 2;
@@ -45,8 +47,8 @@ public class Camera2D implements Renderable {
 		}
 	}
 	
-	public void renderAndClear(CoffeeRenderer r) {
-		this.render(r);
+	public void renderAndClear(RenderContext ctx) {
+		this.render(ctx);
 		this.clearBuffer();
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.coffeennec.game.abstractions.GameObjectHandler;
+import org.coffeennec.game.contexts.GameContext;
 import org.coffeennec.math.Point2D;
 import org.coffeennec.physics.bodies.Body;
 import org.coffeennec.physics.collision.CollisionResolver;
@@ -27,7 +28,7 @@ public class World2D extends GameObjectHandler<Body> {
 	}
 
 	@Override
-	public void update() {
+	public void update(GameContext ctx) {
 		for (int iteration = 0; iteration < this.iterations; iteration++) {
 			this.updateBodies();
 			this.updateJoints();

@@ -1,6 +1,7 @@
 package org.coffeennec.graphics.particles;
 
 import org.coffeennec.game.abstractions.GameObjectHandler;
+import org.coffeennec.game.contexts.GameContext;
 
 public class CoffeeParticles extends GameObjectHandler<Particle> {
 
@@ -11,8 +12,8 @@ public class CoffeeParticles extends GameObjectHandler<Particle> {
 	}
 	
 	@Override
-	public void update() {
-		super.update();
+	public void update(GameContext ctx) {
+		super.update(ctx);
 		this.getList().removeIf(Particle::isEnded);
 	}
 	

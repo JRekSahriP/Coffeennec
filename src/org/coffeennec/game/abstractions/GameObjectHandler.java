@@ -3,7 +3,8 @@ package org.coffeennec.game.abstractions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coffeennec.graphics.buffers.CoffeeRenderer;
+import org.coffeennec.game.contexts.GameContext;
+import org.coffeennec.game.contexts.RenderContext;
 
 public abstract class GameObjectHandler<T extends GameObject> extends GameObject {
 	private List<T> objectList;
@@ -13,16 +14,16 @@ public abstract class GameObjectHandler<T extends GameObject> extends GameObject
 	}
 	
 	@Override
-	public void update() {
+	public void update(GameContext ctx) {
 		this.getCopyList().forEach(e -> {
-			if (e != null) e.update();
+			if (e != null) e.update(ctx);
 		});
 	}
 	
 	@Override
-	public void render(CoffeeRenderer r) {
+	public void render(RenderContext ctx) {
 		this.getCopyList().forEach(e -> {
-			if (e != null) e.render(r);
+			if (e != null) e.render(ctx);
 		});
 	}
 	

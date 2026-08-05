@@ -1,6 +1,7 @@
 package org.coffeennec.physics.bodies;
 
-import org.coffeennec.graphics.buffers.CoffeeRenderer;
+import org.coffeennec.game.contexts.GameContext;
+import org.coffeennec.game.contexts.RenderContext;
 import org.coffeennec.math.Point2D;
 import org.coffeennec.math.Transform2D;
 import org.coffeennec.math.data.AABBData;
@@ -26,10 +27,10 @@ public class ConvexPolygonBody extends Body {
 	
 
 	@Override
-	public void update() {}
+	public void update(GameContext ctx) {}
 
 	@Override
-	public void render(CoffeeRenderer r) {}
+	public void render(RenderContext ctx) {}
 
 	@Override
 	public CollisionData collideWith(Body other) {
