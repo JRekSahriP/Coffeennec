@@ -22,13 +22,11 @@ public abstract class CoffeeWindow<G extends GameContext, R extends RenderContex
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.panel = new CoffeePanel<>(this);	
-		this.gameContext = this.createGameContext();
-		this.renderContext = this.createRenderContext(this.panel.getBuffer());
-		
-		this.panel.pauseLoop();
 		this.add(this.panel);
 		this.setWindowSize(600, 600);
-	
+		
+		this.gameContext = this.createGameContext();
+		this.renderContext = this.createRenderContext(this.panel.getBuffer());
 		
 		this.addFennecKeys();
 		this.addFennecCursor();
@@ -72,6 +70,7 @@ public abstract class CoffeeWindow<G extends GameContext, R extends RenderContex
 		this.setSize(size);
 		this.panel.setPreferredSize(size);
 		this.panel.setSize(size);
+		this.panel.setBuffer(new CoffeeBuffer(size.width, size.height));
 		this.pack();
 	}
 

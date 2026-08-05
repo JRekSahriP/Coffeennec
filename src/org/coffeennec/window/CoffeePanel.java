@@ -28,7 +28,7 @@ public class CoffeePanel<G extends GameContext, R extends RenderContext> extends
 	
 	public CoffeePanel(CoffeeWindow<G, R> window) {
 		this.running = true;
-		this.paused = false;
+		this.paused = true;
 		
 		this.setMaxFPS(60);
 		
@@ -41,6 +41,9 @@ public class CoffeePanel<G extends GameContext, R extends RenderContext> extends
 			@Override
 			public void componentResized(ComponentEvent e) {
 				buffer = new CoffeeBuffer(getWidth(), getHeight());
+				if (window.getRenderContext() != null) {
+					window.getRenderContext().setBuffer(buffer);
+				}
 			}
 		});
 		
@@ -116,6 +119,10 @@ public class CoffeePanel<G extends GameContext, R extends RenderContext> extends
 	
 	public CoffeeBuffer getBuffer() {
 		return buffer;
+	}
+	
+	public void setBuffer(CoffeeBuffer buffer) {
+		this.buffer = buffer;
 	}
 	
 }
