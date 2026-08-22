@@ -14,28 +14,41 @@ public class CoffeeRenderer {
 	private CoffeeFont font;
 	
 	private Point2D offset;
+	private CoffeeBuffer.BlendMode blendMode;
 
 	public CoffeeRenderer(CoffeeBuffer buffer, CoffeeFont font) {
 		this.buffer = buffer;
 		this.font = font;
 		this.offset = Point2D.zero();
+		this.blendMode = CoffeeBuffer.BlendMode.REPLACE;
 	}
 	public CoffeeRenderer(CoffeeBuffer buffer) {
 		this(buffer, null);
 	}
 	
-
+	public void setOffset(Point2D offset) {
+		this.offset = offset;
+	}
+	public Point2D getOffset() {
+		return this.offset;
+	}
+	
+	public void setBlendMode(CoffeeBuffer.BlendMode mode) {
+		this.blendMode = mode;
+	}
+	public CoffeeBuffer.BlendMode getBlendMode() {
+		return this.blendMode;
+	}
+	
 	public void setPixel(int x, int y, int color) {
-		this.buffer.set(x, y, color);
+		this.buffer.blendSet(x, y, color, this.blendMode);
 	}
 	
 	public void setOffsetPixel(int worldX, int worldY, int color) {
         int screenX = worldX - (int) this.offset.x;
         int screenY = worldY - (int) this.offset.y;
         
-        if (this.buffer.boundaryCheckScreen(screenX, screenY)) {
-            this.buffer.set(screenX, screenY, color);
-        }
+        this.buffer.blendSet(screenX, screenY, color, this.blendMode);
     }
 	
 	public void drawLine(Point2D p1, Point2D p2, Hex color) {
@@ -240,13 +253,9 @@ public class CoffeeRenderer {
 		if (this.font == null) {
 			FennecString.eprintf("Cannot Write {}, because font is not definied.\nFont == null\n", text);
 		}
-		this.buffer.blit(this.font.drawText(text, color), x - (int)this.offset.x, y - (int)this.offset.y);
+		this.buffer.blit(this.font.drawText(text, color), x - (int)this.offset.x, y - (int)this.offset.y, this.blendMode);
 	}
 
-	public void setOffset(Point2D offset) {
-		this.offset = offset;
-	}
-	
 	public int getWidth() {
 		return this.buffer.getWidth();
 	}

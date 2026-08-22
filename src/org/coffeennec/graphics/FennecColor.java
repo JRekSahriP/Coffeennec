@@ -41,15 +41,61 @@ public class FennecColor {
 
 	public static Hex[] getTransitionColors(Hex color1, Hex color2) {
 		Hex[] colors = new Hex[100];
-		
+
 		for(int i = 0; i < 100; i++) {
 			colors[i] = blendColors(color1, color2, i);
 		}
-		
+
 		return colors;
 	}
 	public static Hex[] getTransitionColors(int color1, int color2) {
 		return getTransitionColors(new Hex(color1), new Hex(color2));
+	}
+
+
+	public static int additive(int dst, int src) {
+		int dstA = (dst >> 24) & 0xFF;
+		int dstR = (dst >> 16) & 0xFF;
+		int dstG = (dst >> 8) & 0xFF;
+		int dstB = dst & 0xFF;
+
+		int srcA = (src >> 24) & 0xFF;
+		int srcR = (src >> 16) & 0xFF;
+		int srcG = (src >> 8) & 0xFF;
+		int srcB = src & 0xFF;
+
+		int r = Math.min(255, dstR + srcR);
+		int g = Math.min(255, dstG + srcG);
+		int b = Math.min(255, dstB + srcB);
+		int a = Math.min(255, dstA + srcA);
+
+		return (a << 24) | (r << 16) | (g << 8) | b;
+	}
+
+	public static int over(int dst, int src) {
+		int srcA = (src >> 24) & 0xFF;
+		if (srcA == 0) return dst;
+		if (srcA == 255) return src;
+
+		int dstA = (dst >> 24) & 0xFF;
+		int dstR = (dst >> 16) & 0xFF;
+		int dstG = (dst >> 8) & 0xFF;
+		int dstB = dst & 0xFF;
+
+		int srcR = (src >> 16) & 0xFF;
+		int srcG = (src >> 8) & 0xFF;
+		int srcB = src & 0xFF;
+
+		int invSrcA = 255 - srcA;
+		int outA = srcA + ((dstA * invSrcA) >> 8);
+
+		if (outA == 0) return 0;
+
+		int outR = (srcR * srcA + (dstR * dstA * invSrcA >> 8)) / outA;
+		int outG = (srcG * srcA + (dstG * dstA * invSrcA >> 8)) / outA;
+		int outB = (srcB * srcA + (dstB * dstA * invSrcA >> 8)) / outA;
+
+		return (outA << 24) | (outR << 16) | (outG << 8) | outB;
 	}
 
 	
@@ -107,6 +153,18 @@ public class FennecColor {
 		
 		public void setHex(int hex) {
 			this.value = hex;
+		}
+		
+		public Hex blend(Hex other, float percentage) {
+			return FennecColor.blendColors(this, other, percentage);
+		}
+
+		public Hex additive(Hex destination) {
+			return new Hex(FennecColor.additive(destination.value, this.value));
+		}
+
+		public Hex over(Hex destination) {
+			return new Hex(FennecColor.over(destination.value, this.value));
 		}
 		
 

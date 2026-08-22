@@ -8,9 +8,16 @@ import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.coffeennec.graphics.CoffeeFont;
+import org.coffeennec.graphics.FennecColor;
 import org.coffeennec.strings.FennecString;
 
 public class CoffeeBuffer {
+	public enum BlendMode {
+		REPLACE,
+		ADDITIVE,
+		OVER
+	}
+
 	private int[] buffer;
 	private final Dimension size;
 	
@@ -55,6 +62,34 @@ public class CoffeeBuffer {
 	}
 	public void set(int x, int y, int value) {
 		this.set(y * this.getWidth() + x, value);
+	}
+	
+	public void blendSet(int x, int y, int color, BlendMode mode) {
+		if (!this.boundaryCheckScreen(x, y)) {
+			return;
+		}
+		this.blendSet(y * this.getWidth() + x, color, mode);
+	}
+	
+	public void blendSet(int index, int color, BlendMode mode) {
+		if (!this.boundaryCheckBuffer(index)) {
+			return;
+		}
+		int dst = this.buffer[index];
+		this.buffer[index] = blend(dst, color, mode);
+	}
+	
+	private static int blend(int dst, int src, BlendMode mode) {
+		switch (mode) {
+			case REPLACE:
+				return src;
+			case ADDITIVE:
+				return FennecColor.additive(dst, src);
+			case OVER:
+				return FennecColor.over(dst, src);
+			default:
+				return src;
+		}
 	}
 	
 	public void fill(int value) {
@@ -131,6 +166,10 @@ public class CoffeeBuffer {
 	 * @param ignoreIf
 	 */
 	public void blit(CoffeeBuffer other, int x, int y, int width, int height, Predicate<Integer> ignoreIf) {
+		this.blit(other, x, y, width, height, ignoreIf, BlendMode.REPLACE);
+	}
+	
+	public void blit(CoffeeBuffer other, int x, int y, int width, int height, Predicate<Integer> ignoreIf, BlendMode mode) {
 	    if(width < 0 || width > other.getWidth()) {
 	        FennecString.eprintf("Error: width [{}] is invalid. It should be between 0 and the source buffer's width [{}].\n", width, other.getWidth());
 	    }
@@ -153,7 +192,7 @@ public class CoffeeBuffer {
 					continue;
 				}
 				
-				this.set(px, py, argb);
+				this.blendSet(px, py, argb, mode);
 			}
 			
 		}
@@ -167,7 +206,11 @@ public class CoffeeBuffer {
 	 * @param y
 	 */
 	public void blit(CoffeeBuffer other, int x, int y) {
-		this.blit(other, x, y, other.size.width, other.size.height, c -> c == 0x00000000);
+		this.blit(other, x, y, BlendMode.REPLACE);
+	}
+	
+	public void blit(CoffeeBuffer other, int x, int y, BlendMode mode) {
+		this.blit(other, x, y, other.size.width, other.size.height, c -> c == 0x00000000, mode);
 	}
 
 	
