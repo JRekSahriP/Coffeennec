@@ -70,7 +70,7 @@ public class Camera2D implements Renderable {
 	public void setWidth(int width) {
 		this.size.width = width;
 	}
-	public void setheight(int height) {
+	public void setHeight(int height) {
 		this.size.height = height;
 	}
 	
