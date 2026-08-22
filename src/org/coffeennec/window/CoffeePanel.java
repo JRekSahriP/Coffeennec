@@ -62,10 +62,10 @@ public class CoffeePanel<G extends GameContext, R extends RenderContext> extends
 
 		while (this.running) {
 			long atual = System.nanoTime();
-			delta += (atual - lastTime) / this.tickTime;
-			lastTime = atual;
 			
 			if (!this.paused) {
+				delta += (atual - lastTime) / this.tickTime;
+
 				if (delta >= 1) {
 					this.update(delta);
 					this.repaint();
@@ -73,6 +73,8 @@ public class CoffeePanel<G extends GameContext, R extends RenderContext> extends
 					delta--;
 				}
 			}
+
+			lastTime = atual;
 			
 			if (System.currentTimeMillis() - timer >= 1000) {
 				this.FPS = frames;
